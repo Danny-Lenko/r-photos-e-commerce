@@ -3,14 +3,7 @@ const Context = React.createContext();
 
 function ContextProvider(props) {
   const [pictures, setPictures] = useState([]);
-
-  function likePicture(id) {
-    setPictures(prevState => prevState.map(img => (
-      img.id === id 
-        ? {...img, isFavorite: !img.isFavorite}
-        : img
-    )))
-  }
+  const [cartItems, setCartItems] = useState([])
 
   useEffect(() => {
     fetch(
@@ -20,11 +13,33 @@ function ContextProvider(props) {
       .then((data) => setPictures(data));
   }, []);
 
+  function addToCart(id) {
+    const chosenPicture = pictures.find(img => img.id === id)
+    setCartItems(prevState => [...prevState, chosenPicture])
+  }
+
+  function removeFromCart(id) {
+    setCartItems(prevState => prevState.filter(img => img.id !== id))
+  }
+
+  console.log(cartItems)
+
+  function likePicture(id) {
+    setPictures(prevState => prevState.map(img => (
+      img.id === id 
+        ? {...img, isFavorite: !img.isFavorite}
+        : img
+    )))
+  }
+
   return (
     <Context.Provider 
       value={{ 
         pictures,
-        likePicture
+        likePicture,
+        cartItems,
+        addToCart,
+        removeFromCart
       }}>
       {props.children}
     </Context.Provider>
