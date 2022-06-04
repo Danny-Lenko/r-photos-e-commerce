@@ -7,7 +7,7 @@ function Photos() {
   const { pictures } = useContext(Context);
 
   const allPictures = pictures.map((img, i) => (
-        <Picture img={img} className={getClass(i)}/>
+        <Picture key={img.id} img={img} className={getClass(i)}/>
 ));
 
   return (

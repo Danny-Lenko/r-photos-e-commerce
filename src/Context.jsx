@@ -4,6 +4,14 @@ const Context = React.createContext();
 function ContextProvider(props) {
   const [pictures, setPictures] = useState([]);
 
+  function likePicture(id) {
+    setPictures(prevState => prevState.map(img => (
+      img.id === id 
+        ? {...img, isFavorite: !img.isFavorite}
+        : img
+    )))
+  }
+
   useEffect(() => {
     fetch(
       "https://raw.githubusercontent.com/bobziroll/scrimba-react-bootcamp-images/master/images.json"
@@ -13,7 +21,13 @@ function ContextProvider(props) {
   }, []);
 
   return (
-    <Context.Provider value={{ pictures }}>{props.children}</Context.Provider>
+    <Context.Provider 
+      value={{ 
+        pictures,
+        likePicture
+      }}>
+      {props.children}
+    </Context.Provider>
   );
 }
 

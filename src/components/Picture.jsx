@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import {Context} from "../Context"
 
 function Picture({ img, className }) {
+   const { likePicture } = useContext(Context)
    const [hovered, setHovered] = useState(false)
 
    function enter() {
@@ -20,7 +22,14 @@ function Picture({ img, className }) {
          
          <img className="image-grid" src={img.url} alt="" />
          {
-            hovered && <i className="ri-add-box-line cart"></i>
+            hovered && 
+               <>
+                  <i 
+                     className={`ri-heart-3-${img.isFavorite ? 'fill' : 'line'} favorite`}
+                     onClick={() => likePicture(img.id)}
+                  ></i>
+                  <i className="ri-add-box-line cart"></i>
+               </>
          }
 
       </div>
