@@ -22,8 +22,6 @@ function ContextProvider(props) {
     setCartItems(prevState => prevState.filter(img => img.id !== id))
   }
 
-  console.log(cartItems)
-
   function likePicture(id) {
     setPictures(prevState => prevState.map(img => (
       img.id === id 
