@@ -30,6 +30,13 @@ function ContextProvider(props) {
     )))
   }
 
+  function placeOrder() {
+    setTimeout(() => {
+      setCartItems([])
+      console.log('Order placed')
+    }, 3000)
+  }
+
   return (
     <Context.Provider 
       value={{ 
@@ -37,7 +44,8 @@ function ContextProvider(props) {
         likePicture,
         cartItems,
         addToCart,
-        removeFromCart
+        removeFromCart,
+        placeOrder
       }}>
       {props.children}
     </Context.Provider>
