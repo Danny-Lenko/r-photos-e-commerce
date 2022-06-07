@@ -1,17 +1,10 @@
 import React, { useState, useContext } from "react";
 import {Context} from "../Context"
+import useHover from "../hooks/useHover"
 
 function Picture({ img, className }) {
    const { likePicture, addToCart, cartItems, removeFromCart } = useContext(Context)
-   const [hovered, setHovered] = useState(false)
-
-   function enter() {
-     setHovered(true)
-   }
-
-   function leave() {
-     setHovered(false)
-   }
+   const [hovered, ref] = useHover()
 
    function renderFavoriteItems() {
       if (hovered && !img.isFavorite) {
@@ -47,8 +40,7 @@ function Picture({ img, className }) {
    return (
       <div 
          className={`image-container ${className}`}
-         onMouseEnter={enter}
-         onMouseLeave={leave}
+         ref={ref}
       >
          <img className="image-grid" src={img.url} alt="" />
       
