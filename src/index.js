@@ -10,10 +10,10 @@ const root = createRoot(rootElement);
 
 root.render(
   // <ContextProvider>
-  //   <BrowserRouter>
+    <BrowserRouter>
       <StrictMode>
         <App />
       </StrictMode>
-  //   </BrowserRouter>
+    </BrowserRouter>
   // </ContextProvider>
 );
