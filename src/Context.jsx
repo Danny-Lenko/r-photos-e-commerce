@@ -12,9 +12,18 @@ function ContextProvider(props) {
          .then(data => setPhotos(data))
    }, [])
 
+   function likePhoto(id) {
+      setPhotos(prevState => prevState.map(img => (
+         img.id === id
+            ? {...img, isFavorite: !img.isFavorite}
+            : img
+      )))
+   }
+
    return(
       <Context.Provider value={{
-         photos
+         photos,
+         likePhoto
       }}>
          {props.children}
       </Context.Provider>
