@@ -1,55 +1,58 @@
-import React, { useState, useEffect } from "react";
-const Context = React.createContext();
+import React, {useEffect, useState} from "react"
+
+const Context = React.createContext()
 
 function ContextProvider(props) {
-  const [pictures, setPictures] = useState([]);
-  const [cartItems, setCartItems] = useState([])
+   const [photos, setPhotos] = useState([])
+   const [cartItems, setCartItems] = useState([])
+   const [orderProcess, setOrderProcess] = useState(false)
 
-  useEffect(() => {
-    fetch(
-      "https://raw.githubusercontent.com/bobziroll/scrimba-react-bootcamp-images/master/images.json"
-    )
-      .then((res) => res.json())
-      .then((data) => setPictures(data));
-  }, []);
+   const url = "https://raw.githubusercontent.com/bobziroll/scrimba-react-bootcamp-images/master/images.json"
+   useEffect(() => {
+      fetch(url)
+         .then(res => res.json())
+         .then(data => setPhotos(data))
+   }, [])
 
-  function addToCart(id) {
-    const chosenPicture = pictures.find(img => img.id === id)
-    setCartItems(prevState => [...prevState, chosenPicture])
-  }
+   function likePhoto(id) {
+      setPhotos(prevState => prevState.map(img => (
+         img.id === id
+            ? {...img, isFavorite: !img.isFavorite}
+            : img
+      )))
+   }
 
-  function removeFromCart(id) {
-    setCartItems(prevState => prevState.filter(img => img.id !== id))
-  }
+   function addToCart(id) {
+      const chosenImg = photos.find(img => img.id === id)
+      setCartItems(prevState => [...prevState, chosenImg])
+   }
 
-  function likePicture(id) {
-    setPictures(prevState => prevState.map(img => (
-      img.id === id 
-        ? {...img, isFavorite: !img.isFavorite}
-        : img
-    )))
-  }
+   function removeFromCart(id) {
+      setCartItems(prevState => prevState.filter(img => img.id !== id))
+   }
 
-  function placeOrder() {
-    setTimeout(() => {
-      setCartItems([])
-      console.log('Order placed')
-    }, 3000)
-  }
+   function placeOrder() {
+      setOrderProcess(true)
+      setTimeout(() => {
+         setCartItems([])
+         console.log("Order Placed!")
+         setOrderProcess(false)
+      }, 3000)
+   }
 
-  return (
-    <Context.Provider 
-      value={{ 
-        pictures,
-        likePicture,
-        cartItems,
-        addToCart,
-        removeFromCart,
-        placeOrder
+   return(
+      <Context.Provider value={{
+         photos,
+         likePhoto,
+         cartItems,
+         addToCart,
+         removeFromCart,
+         placeOrder,
+         orderProcess
       }}>
-      {props.children}
-    </Context.Provider>
-  );
+         {props.children}
+      </Context.Provider>
+   )
 }
 
-export { Context, ContextProvider };
+export {Context, ContextProvider}
