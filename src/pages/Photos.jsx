@@ -12,7 +12,6 @@ function Photos() {
 
    return(
       <main className="photos">
-
          {allPhotos}
       </main>
    )
