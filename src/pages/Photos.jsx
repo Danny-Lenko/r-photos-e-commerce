@@ -4,11 +4,7 @@ import { Context } from '../Context'
 import PhotoItem from '../components/PhotoItem'
 
 function Photos() {
-   const { 
-      photos 
-   } = useContext(Context)
-
-   console.log(photos)
+   const { photos } = useContext(Context)
 
    const allPhotos = photos.map((item, i) => (
       <PhotoItem key={item.id} item={item} i={i} />

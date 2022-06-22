@@ -9,7 +9,7 @@ import Cart from './pages/Cart'
 function App() {
 
    return(
-      <>
+      <div className="app">
          <Header />
 
          <Routes>
@@ -17,7 +17,7 @@ function App() {
 
             <Route path="/cart" element={<Cart />} />
          </Routes>
-      </>
+      </div>
    )
 }
 
