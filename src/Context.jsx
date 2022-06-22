@@ -1,58 +1,58 @@
-import React, {useEffect, useState} from "react"
+import React, { createContext, useEffect, useState } from 'react'
 
-const Context = React.createContext()
+const Context = createContext()
 
 function ContextProvider(props) {
    const [photos, setPhotos] = useState([])
    const [cartItems, setCartItems] = useState([])
-   const [orderProcess, setOrderProcess] = useState(false)
+   const [orderStatus, setOrderStatus] = useState(false)
 
-   const url = "https://raw.githubusercontent.com/bobziroll/scrimba-react-bootcamp-images/master/images.json"
    useEffect(() => {
-      fetch(url)
+      fetch('https://raw.githubusercontent.com/bobziroll/scrimba-react-bootcamp-images/master/images.json')
          .then(res => res.json())
          .then(data => setPhotos(data))
+         .catch(err => alert(`RELOAD PAGE, ${err}`))
    }, [])
 
-   function likePhoto(id) {
-      setPhotos(prevState => prevState.map(img => (
-         img.id === id
-            ? {...img, isFavorite: !img.isFavorite}
-            : img
+   function manageLikeBtn(id) {
+      setPhotos(prevState => prevState.map(item => (
+         item.id === id
+            ? {...item, isFavorite: !item.isFavorite}
+            : item
       )))
    }
 
    function addToCart(id) {
-      const chosenImg = photos.find(img => img.id === id)
-      setCartItems(prevState => [...prevState, chosenImg])
+      const currentPhoto = photos.find(photo => photo.id === id)
+      setCartItems(prevState => [...prevState, currentPhoto])
    }
 
    function removeFromCart(id) {
-      setCartItems(prevState => prevState.filter(img => img.id !== id))
+      setCartItems(prevState => prevState.filter(photo => photo.id !== id))
    }
 
    function placeOrder() {
-      setOrderProcess(true)
+      setOrderStatus(true)
       setTimeout(() => {
+         setOrderStatus(false)
          setCartItems([])
-         console.log("Order Placed!")
-         setOrderProcess(false)
+         console.log('Order Placed!')
       }, 3000)
    }
 
    return(
       <Context.Provider value={{
          photos,
-         likePhoto,
+         manageLikeBtn,
          cartItems,
          addToCart,
          removeFromCart,
-         placeOrder,
-         orderProcess
+         orderStatus,
+         placeOrder
       }}>
          {props.children}
       </Context.Provider>
    )
 }
 
-export {Context, ContextProvider}
+export { Context, ContextProvider }

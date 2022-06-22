@@ -1,20 +1,21 @@
-import React, {useContext} from "react"
-import useHover from "../hooks/useHover"
-import {Context} from "../Context"
+import React, { useContext } from 'react'
 
-function CartItem({item}) {
-   const [hovered, ref] = useHover()
-   const {removeFromCart} = useContext(Context)
+import { Context } from '../Context'
+import useHover from '../hooks/useHover'
+
+function CartItem({ item }) {
+   const [ hovered, ref ] = useHover()
+   const { removeFromCart } = useContext(Context)
 
    return(
       <div className="cart-item">
-         <i 
-            className={`ri-delete-bin-${hovered ? 'fill' : 'line'}`}
+         <i
             onClick={() => removeFromCart(item.id)}
             ref={ref}
+            class={`ri-delete-bin-${hovered ? 'fill' : 'line'}`}
          ></i>
 
-         <img src={item.url} alt="" width="130px"/>
+         <img width="130px" src={item.url} alt=""/>
          <p>$2.99</p>
       </div>
    )

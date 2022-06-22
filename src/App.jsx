@@ -1,26 +1,24 @@
-import React from "react"
-import {Routes, Route} from "react-router-dom"
+import React from 'react'
+import './styles.css'
+import { Routes, Route } from 'react-router-dom'
 
-import "./styles.css"
-import Photos from "./pages/Photos"
-import Cart from "./pages/Cart"
-
-import Header from "./components/Header"
+import Header from './components/Header'
+import Photos from './pages/Photos'
+import Cart from './pages/Cart'
 
 function App() {
 
-  return(
-    <div>
-      <Header />
-      
-      <Routes>
+   return(
+      <div className="app">
+         <Header />
 
-        <Route path="/" element={<Photos />} />
-        <Route path="/cart" element={<Cart />} />
+         <Routes>
+            <Route path="/" element={<Photos />} />
 
-      </Routes>
-    </div>
-  )
+            <Route path="/cart" element={<Cart />} />
+         </Routes>
+      </div>
+   )
 }
 
 export default App

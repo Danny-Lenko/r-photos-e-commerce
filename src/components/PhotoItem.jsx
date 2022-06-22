@@ -1,48 +1,51 @@
-import React, {useContext} from "react"
-import useHover from "../hooks/useHover"
-import {getClass} from "../utils/index"
-import {Context} from "../Context"
+import React, { useContext } from 'react'
 
-function PhotoItem({img, index}) {
-   const [hovered, ref] = useHover()
-   const {likePhoto, cartItems, addToCart, removeFromCart} = useContext(Context)
+import { Context } from '../Context'
+import { getClass } from '../utils/index'
+import useHover from '../hooks/useHover'
+
+function PhotoItem({ item, i }) {
+   const [ hovered, ref ] = useHover()
+
+   const {
+      manageLikeBtn,
+      cartItems,
+      addToCart,
+      removeFromCart
+   } = useContext(Context)
 
    function chooseFavoriteIcon() {
-      if (img.isFavorite) {
-         return 'fill'
-      } else if (hovered) {
-         return 'line'
-      }
+      return <i 
+         className={`favorite 
+            ri-heart-${item.isFavorite ? 'fill' : hovered ? 'line' : ''}
+         `}
+         onClick={ () => manageLikeBtn(item.id) }
+      ></i>
    }
 
    function chooseCartIcon() {
-      if (cartItems.some(item => item.id === img.id)) {
-         return <i 
-            className="ri-shopping-cart-line cart"
-            onClick={() => removeFromCart(img.id)}
-         ></i>
-      } else if (hovered) {
-         return <i 
-            className="ri-add-box-line cart"
-            onClick={() => addToCart(img.id)}
-         ></i>
-      }
+      const isInCart = cartItems.find(photo => photo.id === item.id)
+      return <i 
+         className={`cart 
+            ri-shopping-cart-${isInCart ? 'fill' : hovered ? 'line' : ''}
+         `}
+         onClick={ 
+            isInCart 
+               ? () => removeFromCart(item.id) 
+               : () => addToCart(item.id) 
+            }
+      ></i>
    }
 
    return(
-      <div 
+      <div
          ref={ref}
-         className={`image-container ${getClass(index)}`}
+         className={`image-container ${getClass(i)}`}
       >
-         <img src={img.url} alt="" className="image-grid" />
+         <img src={item.url} alt="" className="image-grid"/>
 
-         <i 
-            className={`ri-heart-${chooseFavoriteIcon()} favorite`}
-            onClick={() => likePhoto(img.id)}
-         ></i>
-
+         {chooseFavoriteIcon()}
          {chooseCartIcon()}
-
       </div>
    )
 }
