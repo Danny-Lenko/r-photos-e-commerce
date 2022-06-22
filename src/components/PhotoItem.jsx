@@ -1,25 +1,18 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 
 import { Context } from '../Context'
 import { getClass } from '../utils/index'
+import useHover from '../hooks/useHover'
 
 function PhotoItem({ item, i }) {
-   const [hovered, setHovered] = useState(false)
+   const [ hovered, ref ] = useHover()
 
-   const { 
+   const {
       manageLikeBtn,
       cartItems,
       addToCart,
       removeFromCart
    } = useContext(Context)
-
-   function enter() {
-      setHovered(true)
-   }
-
-   function leave() {
-      setHovered(false)
-   }
 
    function chooseFavoriteIcon() {
       return <i 
@@ -45,10 +38,9 @@ function PhotoItem({ item, i }) {
    }
 
    return(
-      <div 
+      <div
+         ref={ref}
          className={`image-container ${getClass(i)}`}
-         onMouseEnter={enter}
-         onMouseLeave={leave}
       >
          <img src={item.url} alt="" className="image-grid"/>
 
