@@ -4,7 +4,7 @@ function Cart() {
 
    return(
       <main className="cart-page">
-         <h2>Cart goes here</h2>
+         <h1>Cart Items</h1>
       </main>
    )
 }
